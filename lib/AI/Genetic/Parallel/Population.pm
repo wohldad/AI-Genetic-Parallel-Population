@@ -28,14 +28,19 @@ Perhaps a little code snippet.
     use AI::Genetic::Parallel::Population;
 
     my $pop = AI::Genetic::Parallel::Population->new(
+
         population => [
             AI::Genetic::Parallel::Individual->new( dna => 'AB' ),
             AI::Genetic::Parallel::Individual->new( dna => '01' ),
         ],
+
+        #  default sorter sorts descending based on fitness
+        #  best is considered top of list
         sorter => sub {
             my $array = shift;
             return [ sort { $b->fitness <=> $a->fitness } @{$array} ];
         }
+
     );
 
     #  get members
