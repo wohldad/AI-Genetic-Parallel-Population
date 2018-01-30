@@ -9,7 +9,7 @@ perl:
   - "5.22"
   - "5.24"
   - "5.26"
-before_script:
+before_install:
   - wget https://github.com/wohldad/AI-Genetic-Parallel-Individual/archive/master.zip -O /tmp/individual.tar.gz
   - tar -xvf /tmp/individual.tar.gz
   - cd /tmp/AI-Genetic-Parallel-Individual-master
