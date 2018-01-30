@@ -11,6 +11,7 @@ perl:
   - "5.26"
 before_install:
   - wget https://github.com/wohldad/AI-Genetic-Parallel-Individual/archive/master.zip -O /tmp/individual.zip
+  - cd /tmp
   - unzip /tmp/individual.zip
   - cd /tmp/AI-Genetic-Parallel-Individual-master
   - perl Makefile.PL & make & make test & make install & make clean
