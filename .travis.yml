@@ -14,5 +14,9 @@ before_install:
   - cd /tmp
   - unzip /tmp/individual.zip
   - cd /tmp/AI-Genetic-Parallel-Individual-master
-  - perl Makefile.PL & make & make test & make install & make clean
+  - perl Makefile.PL
+  - make
+  - make test
+  - make install
+  - make clean
 script: "perl Makefile.PL && make disttest"
