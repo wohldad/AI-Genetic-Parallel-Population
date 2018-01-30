@@ -44,9 +44,6 @@ Perhaps a little code snippet.
     my $elites     = $pop->elites;
 
     #  filter members
-    $pop->kill->worst(5);
-    $pop->keep->best(5);
-
     $pop->keep(
         $pop->best(5),
         $pop->elites,
