@@ -29,7 +29,7 @@ Perhaps a little code snippet.
 
     my $pop = AI::Genetic::Parallel::Population->new(
 
-        members => [
+        individuals => [
             AI::Genetic::Parallel::Individual->new( dna => 'AB' ),
             AI::Genetic::Parallel::Individual->new( dna => '01' ),
         ],
@@ -43,18 +43,18 @@ Perhaps a little code snippet.
 
     );
 
-    #  get members
+    #  get individuals
     my $best_five  = $pop->best(5);
     my $worst_five = $pop->worst(5);
     my $elites     = $pop->elites;
 
-    #  filter members
+    #  filter individuals
     $pop->keep(
         $pop->best(5),
         $pop->elites,
     );
 
-    #  kill all members marked with a death_wish
+    #  kill all individuals marked with a death_wish
     $pop->send_reaper;
 
 =head1 METHODS
@@ -78,13 +78,13 @@ has sorter => (
 
 );
 
-=head2 members
+=head2 individuals
 
 is an ArrayRef of ArrayRef[AI::Genetic::Parallel::Individual objects
 
 =cut
 
-has members => ( is => 'rw', isa => 'ArrayRef[AI::Genetic::Parallel::Individual]');
+has individuals => ( is => 'rw', isa => 'ArrayRef[AI::Genetic::Parallel::Individual]');
 
 =head2 fittest
 
@@ -96,7 +96,7 @@ sub fittest {
 
     my $self = shift;
 
-    return $self->sorter->( $self->members );
+    return $self->sorter->( $self->individuals );
 
 }
 
@@ -109,7 +109,7 @@ get the entire populaiton as reverse sorted by sorter coderef
 sub weakest {
 
     my $self = shift;
-    return [ reverse @{ $self->sorter->( $self->members ) } ];
+    return [ reverse @{ $self->sorter->( $self->individuals ) } ];
 
 }
 
@@ -124,11 +124,11 @@ sub best {
     my $self =  shift;
     my $count = shift;
 
-    my $population = $self->fittest;
+    my $individuals = $self->fittest;
 
     my @members;
     foreach my $idx ( 0 .. $count - 1 ) {
-        push @members, $population->[$idx];
+        push @members, $individuals->[$idx];
     }
 
     return \@members;
@@ -137,7 +137,7 @@ sub best {
 
 =head2 worst
 
-get the worst X of the population as reverse sorted by the sorter coderef
+get the worst X of the individuals as reverse sorted by the sorter coderef
 
 =cut
 
@@ -146,11 +146,11 @@ sub worst {
     my $self  = shift;
     my $count = shift;
 
-    my $population = $self->weakest;
+    my $individuals = $self->weakest;
 
     my @members;
     foreach my $idx ( 0 .. $count - 1 ) {
-        push @members, $population->[$idx];
+        push @members, $individuals->[$idx];
     }
 
     return \@members;
@@ -159,7 +159,7 @@ sub worst {
 
 =head2 elites
 
-get the population members marked as true by the 'elite' method 
+get the individuals marked as true by the 'elite' method 
 
 =cut
 
@@ -168,7 +168,7 @@ sub elites {
     my $self = shift;
 
     return [
-        grep { $_->elite } @{ $self->members }
+        grep { $_->elite } @{ $self->individuals }
     ];
 
 }
@@ -197,7 +197,7 @@ sub keep {
         }
     }
 
-    $self->members( $population_replacement );
+    $self->individuals( $population_replacement );
 
     return $self;
 
@@ -213,7 +213,7 @@ sub send_reaper {
 
     my $self = shift;
 
-    $self->members( [ grep{ not $_->death_wish } @{$self->members} ] );
+    $self->individuals( [ grep{ not $_->death_wish } @{$self->individuals} ] );
 
     return $self;
 
