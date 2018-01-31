@@ -99,7 +99,7 @@ is an ArrayRef of ArrayRef[AI::Genetic::Parallel::Individual objects
 
 =cut
 
-has individuals => ( is => 'rw', isa => 'ArrayRef[AI::Genetic::Parallel::Individual]');
+has individuals => ( is => 'rw', isa => 'ArrayRef[AI::Genetic::Parallel::Individual]', default => sub{[]} );
 
 =back
 
