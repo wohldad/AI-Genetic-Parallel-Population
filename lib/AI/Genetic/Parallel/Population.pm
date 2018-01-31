@@ -34,6 +34,9 @@ Perhaps a little code snippet.
             AI::Genetic::Parallel::Individual->new( dna => '01' ),
         ],
 
+        #  number of intended mebers of population when full
+        individual_count => 100,
+
         #  default sorter sorts descending based on fitness
         #  best is considered top of list
         sorter => sub {
@@ -59,7 +62,19 @@ Perhaps a little code snippet.
 
 =head1 METHODS
 
-=head2 sorter
+=head2 new
+
+=over 4
+
+=item individual_count
+
+number of members for the populaiton
+
+=cut
+
+has individual_count => ( is => 'rw', isa => 'Int' );
+
+=head2 item sorter
 
 code-reference to define sorter behavior to define 'strongest' and 'weakest' 
 
@@ -78,13 +93,15 @@ has sorter => (
 
 );
 
-=head2 individuals
+=item individuals
 
 is an ArrayRef of ArrayRef[AI::Genetic::Parallel::Individual objects
 
 =cut
 
 has individuals => ( is => 'rw', isa => 'ArrayRef[AI::Genetic::Parallel::Individual]');
+
+=back
 
 =head2 fittest
 
