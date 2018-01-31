@@ -16,10 +16,13 @@ Perhaps a little code snippet.
 
     my $pop = AI::Genetic::Parallel::Population->new(
 
-        population => [
+        individuals => [
             AI::Genetic::Parallel::Individual->new( dna => 'AB' ),
             AI::Genetic::Parallel::Individual->new( dna => '01' ),
         ],
+
+        #  number of intended mebers of population when full
+        individual_count => 100,
 
         #  default sorter sorts descending based on fitness
         #  best is considered top of list
@@ -30,29 +33,39 @@ Perhaps a little code snippet.
 
     );
 
-    #  get members
+    #  get individuals
     my $best_five  = $pop->best(5);
     my $worst_five = $pop->worst(5);
     my $elites     = $pop->elites;
 
-    #  filter members
+    #  filter individuals
     $pop->keep(
         $pop->best(5),
         $pop->elites,
     );
 
-    #  kill all members marked with a death_wish
+    #  kill all individuals marked with a death_wish
     $pop->send_reaper;
 
 =head1 METHODS
 
-=head2 sorter
+=head2 new
+
+=over 4
+
+=item individual_count
+
+number of members for the populaiton
+
+=head2 item sorter
 
 code-reference to define sorter behavior to define 'strongest' and 'weakest' 
 
-=head2 population
+=item individuals
 
 is an ArrayRef of ArrayRef[AI::Genetic::Parallel::Individual objects
+
+=back
 
 =head2 fittest
 
@@ -68,11 +81,11 @@ get the top X as sorted by the sorter coderef
 
 =head2 worst
 
-get the worst X of the population as reverse sorted by the sorter coderef
+get the worst X of the individuals as reverse sorted by the sorter coderef
 
 =head2 elites
 
-get the population members marked as true by the 'elite' method 
+get the individuals marked as true by the 'elite' method 
 
 =head2 keep
 
