@@ -29,7 +29,7 @@ Perhaps a little code snippet.
 
     my $pop = AI::Genetic::Parallel::Population->new(
 
-        population => [
+        members => [
             AI::Genetic::Parallel::Individual->new( dna => 'AB' ),
             AI::Genetic::Parallel::Individual->new( dna => '01' ),
         ],
@@ -78,13 +78,13 @@ has sorter => (
 
 );
 
-=head2 population
+=head2 members
 
 is an ArrayRef of ArrayRef[AI::Genetic::Parallel::Individual objects
 
 =cut
 
-has population => ( is => 'rw', isa => 'ArrayRef[AI::Genetic::Parallel::Individual]');
+has members => ( is => 'rw', isa => 'ArrayRef[AI::Genetic::Parallel::Individual]');
 
 =head2 fittest
 
@@ -96,7 +96,7 @@ sub fittest {
 
     my $self = shift;
 
-    return $self->sorter->( $self->population );
+    return $self->sorter->( $self->members );
 
 }
 
@@ -109,7 +109,7 @@ get the entire populaiton as reverse sorted by sorter coderef
 sub weakest {
 
     my $self = shift;
-    return [ reverse @{ $self->sorter->( $self->population ) } ];
+    return [ reverse @{ $self->sorter->( $self->members ) } ];
 
 }
 
@@ -168,7 +168,7 @@ sub elites {
     my $self = shift;
 
     return [
-        grep { $_->elite } @{ $self->population }
+        grep { $_->elite } @{ $self->members }
     ];
 
 }
@@ -197,7 +197,7 @@ sub keep {
         }
     }
 
-    $self->population( $population_replacement );
+    $self->members( $population_replacement );
 
     return $self;
 
@@ -213,7 +213,7 @@ sub send_reaper {
 
     my $self = shift;
 
-    $self->population( [ grep{ not $_->death_wish } @{$self->population} ] );
+    $self->members( [ grep{ not $_->death_wish } @{$self->members} ] );
 
     return $self;
 
